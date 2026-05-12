@@ -87,36 +87,7 @@ function slugify(text: string): string {
 
 export function HectarForm({ initialData }: HectarFormProps) {
   const [isPending, startTransition] = useTransition()
-  const [lat, setLat] = useState<string>(initialData?.latitudine?.toString() || '')
-  const [lng, setLng] = useState<string>(initialData?.longitudine?.toString() || '')
   const [existingImages, setExistingImages] = useState<string[]>(initialData?.imagini || [])
-
-  const handleCoordsParse = (val: string) => {
-    if (!val) return;
-    
-    // Regular expression for DMS (Degrees Minutes Seconds) like 45°46'30.2"N 21°33'17.9"E
-    const dmsRegex = /([+-]?\d+)[°\s]+(\d+)['\s]+([\d.]+)["\s]*([NS])\s*[,]?\s*([+-]?\d+)[°\s]+(\d+)['\s]+([\d.]+)["\s]*([EW])/i;
-    const match = val.match(dmsRegex);
-    if (match) {
-      let calcLat = parseInt(match[1]) + parseInt(match[2])/60 + parseFloat(match[3])/3600;
-      if (match[4].toUpperCase() === 'S') calcLat = -calcLat;
-      
-      let calcLng = parseInt(match[5]) + parseInt(match[6])/60 + parseFloat(match[7])/3600;
-      if (match[8].toUpperCase() === 'W') calcLng = -calcLng;
-      
-      setLat(calcLat.toFixed(6));
-      setLng(calcLng.toFixed(6));
-      return;
-    }
-
-    // Try normal decimal format comma separated: 44.549, 26.073
-    const decRegex = /([+-]?\d+\.\d+)[\s,]+([+-]?\d+\.\d+)/;
-    const decMatch = val.match(decRegex);
-    if (decMatch) {
-      setLat(parseFloat(decMatch[1]).toFixed(6));
-      setLng(parseFloat(decMatch[2]).toFixed(6));
-    }
-  }
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
@@ -240,8 +211,6 @@ export function HectarForm({ initialData }: HectarFormProps) {
           setSuccessMessage(initialData ? 'Hectarul a fost actualizat cu succes!' : 'Hectarul a fost adăugat cu succes!')
           if (!initialData) {
             target.reset()
-            setLat('')
-            setLng('')
             setExistingImages([])
             setSelectedFiles([])
             setPreviews([])
@@ -326,16 +295,17 @@ export function HectarForm({ initialData }: HectarFormProps) {
           />
         </div>
 
-        {/* Tip Hectar */}
         <div className="space-y-2">
-           <label className="text-sm font-medium text-gray-700">Tip Hectar <span className="text-red-500">*</span></label>
+           <label className="text-sm font-medium text-gray-700">Tip Teren <span className="text-red-500">*</span></label>
            <select 
             name="tip_hectar" 
-            defaultValue={initialData?.tip_hectar || 'intravilan'}
+            defaultValue={initialData?.tip_hectar || 'rezidential'}
             className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-colors"
            >
-              <option value="intravilan">Intravilan</option>
-              <option value="extravilan">Extravilan</option>
+              <option value="rezidential">Rezidențial</option>
+              <option value="industrial">Industrial</option>
+              <option value="agricol">Agricol</option>
+              <option value="pasune">Pășune</option>
            </select>
         </div>
 
@@ -353,29 +323,7 @@ export function HectarForm({ initialData }: HectarFormProps) {
            </select>
         </div>
 
-        {/* Coordonate Auto-Parse */}
-        <div className="col-span-full space-y-2">
-          <label className="text-sm font-medium text-gray-700">Paste Coordonate Google Maps (Opțional)</label>
-          <div className="text-xs text-gray-500 mb-1">Copiați coordonatele din Google Maps (Ex: 45&deg;46&apos;30.2&quot;N 21&deg;33&apos;17.9&quot;E) și dați paste mai jos:</div>
-          <input 
-            type="text" 
-            placeholder="Introduceți coordonatele aici..." 
-            onChange={(e) => handleCoordsParse(e.target.value)}
-            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-colors" 
-          />
-        </div>
 
-        {/* Latitudine */}
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">Latitudine (Opțional)</label>
-          <input value={lat} onChange={(e) => setLat(e.target.value)} name="latitudine" type="number" step="any" placeholder="Ex: 44.549" className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-colors" />
-        </div>
-
-        {/* Longitudine */}
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">Longitudine (Opțional)</label>
-          <input value={lng} onChange={(e) => setLng(e.target.value)} name="longitudine" type="number" step="any" placeholder="Ex: 26.073" className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-colors" />
-        </div>
 
         {/* Descriere */}
         <div className="col-span-full space-y-2">

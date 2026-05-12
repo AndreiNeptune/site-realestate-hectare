@@ -12,7 +12,6 @@ import {
   Droplets,
   Flame,
   Globe,
-  Navigation,
   Share2,
   Printer,
   Phone,
@@ -69,11 +68,7 @@ export default function HectarDetaliiClient({ land }: Props) {
     vandut: "Vândut",
   };
 
-  // Google Maps embed URL using coordinates
-  const mapEmbedUrl =
-    land.latitudine && land.longitudine
-      ? `https://www.google.com/maps?q=${land.latitudine},${land.longitudine}&z=15&output=embed`
-      : null;
+
 
   // Specs data
   const specs = [
@@ -85,7 +80,12 @@ export default function HectarDetaliiClient({ land }: Props) {
     {
       icon: <Layers className="w-5 h-5" />,
       label: "Tip proprietate",
-      value: land.tip_hectar === "intravilan" ? "Hectar Intravilan" : "Hectar Extravilan",
+      value: {
+        rezidential: "Rezidențial",
+        industrial: "Industrial",
+        agricol: "Agricol",
+        pasune: "Pășune",
+      }[land.tip_hectar] || land.tip_hectar,
     },
     {
       icon: <MapPin className="w-5 h-5" />,
@@ -330,64 +330,7 @@ export default function HectarDetaliiClient({ land }: Props) {
               </div>
             </div>
 
-            {/* Map */}
-            <div className="mb-12">
-              <h2 className="text-xl font-bold text-foreground mb-5 flex items-center gap-3">
-                <Navigation className="w-5 h-5 text-primary flex-shrink-0" />
-                Localizare pe hartă
-              </h2>
 
-              {mapEmbedUrl ? (
-                <div className="space-y-4">
-                  <div className="relative aspect-[16/9] rounded-2xl overflow-hidden border border-border">
-                    <iframe
-                      src={mapEmbedUrl}
-                      width="100%"
-                      height="100%"
-                      style={{ border: 0 }}
-                      allowFullScreen
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
-                      title={`Hartă — ${land.titlu}`}
-                      className="absolute inset-0"
-                    />
-                  </div>
-
-                  {/* GPS Coordinates */}
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 px-5 py-4 bg-surface rounded-xl border border-border">
-                    <div className="flex items-center gap-2 text-xs text-muted">
-                      <Globe className="w-4 h-4 text-primary flex-shrink-0" />
-                      <span className="font-medium">
-                        Lat: {land.latitudine?.toFixed(6)}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-muted">
-                      <Globe className="w-4 h-4 text-primary flex-shrink-0" />
-                      <span className="font-medium">
-                        Long: {land.longitudine?.toFixed(6)}
-                      </span>
-                    </div>
-                    <a
-                      href={`https://www.google.com/maps?q=${land.latitudine},${land.longitudine}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="sm:ml-auto text-xs font-semibold text-primary hover:text-accent transition-colors whitespace-nowrap"
-                    >
-                      Deschide în Google Maps →
-                    </a>
-                  </div>
-                </div>
-              ) : (
-                <div className="aspect-[16/9] bg-surface rounded-2xl border border-border flex items-center justify-center">
-                  <div className="text-center">
-                    <MapPin className="w-8 h-8 text-muted-light mx-auto mb-2" />
-                    <p className="text-sm text-muted">
-                      Coordonatele GPS nu sunt disponibile
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
           </div>
 
           {/* Right Column - Sticky Lead Form */}
