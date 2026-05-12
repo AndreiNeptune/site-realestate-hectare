@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import HectareClient from "./HectareClient";
 
-export const revalidate = 300; // Revalidate every 5 minutes
+export const revalidate = 0; // Disable cache for debugging
 
 export default async function HectareListingPage() {
   const supabase = await createClient();

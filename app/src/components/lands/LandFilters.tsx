@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { SlidersHorizontal, RotateCcw, ChevronDown, ChevronUp } from "lucide-react";
-import { JUDETE, TIP_HECTAR_OPTIONS } from "@/lib/constants";
+import { JUDETE, TIP_HECTAR_OPTIONS, PRET_MAX_LIMIT, SUPRAFATA_MAX_LIMIT } from "@/lib/constants";
 import FilterSelect from "@/components/ui/FilterSelect";
 
 export interface FilterValues {
@@ -16,8 +16,7 @@ export interface FilterValues {
   sortare: string;
 }
 
-const PRET_MAX_LIMIT = 500000;
-const SUPRAFATA_MAX_LIMIT = 50000;
+
 
 interface LandFiltersProps {
   filters: FilterValues;
@@ -41,6 +40,7 @@ export default function LandFilters({ filters, onFilterChange }: LandFiltersProp
       tipHectar: "",
       pretMin: 0,
       pretMax: PRET_MAX_LIMIT,
+
       suprafataMin: 0,
       suprafataMax: SUPRAFATA_MAX_LIMIT,
       sortare: "recent",

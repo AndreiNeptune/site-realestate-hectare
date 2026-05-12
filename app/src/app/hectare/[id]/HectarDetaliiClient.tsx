@@ -45,7 +45,10 @@ export default function HectarDetaliiClient({ land }: Props) {
     }).format(price);
 
   const formatArea = (area: number) =>
-    new Intl.NumberFormat("ro-RO").format(area);
+    new Intl.NumberFormat("ro-RO", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 4,
+    }).format(area / 10000);
 
   const formatDate = (dateString: string) =>
     new Intl.DateTimeFormat("ro-RO", {

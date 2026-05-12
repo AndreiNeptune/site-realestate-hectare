@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { X, RotateCcw, Check, Wallet, Maximize2, MapPin, Home, Zap, Droplets, Flame, Waves, Power } from "lucide-react";
+import { PRET_MAX_LIMIT, SUPRAFATA_MAX_LIMIT } from "@/lib/constants";
 
 interface FilterValues {
   searchQuery: string;
@@ -27,8 +28,7 @@ interface AdvancedFilterSheetProps {
   onReset: () => void;
 }
 
-const PRET_MAX_LIMIT = 500000;
-const SUPRAFATA_MAX_LIMIT = 50000;
+
 
 export default function AdvancedFilterSheet({
   isOpen,

@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import Image from "next/image";
 import { Search, MapPin, ArrowLeft, Home, Wallet, SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
-import { JUDETE } from "@/lib/constants";
+import { JUDETE, PRET_MAX_LIMIT, SUPRAFATA_MAX_LIMIT } from "@/lib/constants";
 import LandCard from "@/components/lands/LandCard";
 import SearchSelect from "@/components/ui/SearchSelect";
 import SearchInput from "@/components/ui/SearchInput";
@@ -46,7 +46,8 @@ const INITIAL_FILTERS: FilterValues = {
   judet: "",
   tipHectar: "",
   pretMin: 0,
-  pretMax: 0,
+  pretMax: PRET_MAX_LIMIT,
+
   suprafataMin: 0,
   suprafataMax: 50000,
   sortare: "recent",
@@ -92,14 +93,18 @@ export default function HectareClient({ initialLands }: HectareClientProps) {
     }
 
     // Price range
-    results = results.filter(
-      (l) => Number(l.pret) >= filters.pretMin && (filters.pretMax === 0 || Number(l.pret) <= filters.pretMax)
-    );
+    results = results.filter((l) => {
+      const price = Number(l.pret);
+      const isOverMax = filters.pretMax >= PRET_MAX_LIMIT;
+      return price >= filters.pretMin && (filters.pretMax === 0 || isOverMax || price <= filters.pretMax);
+    });
 
-    // Area range
-    results = results.filter(
-      (l) => Number(l.suprafata_mp) >= filters.suprafataMin && Number(l.suprafata_mp) <= filters.suprafataMax
-    );
+    // Area range (converting sqm from DB to ha for comparison with filter)
+    results = results.filter((l) => {
+      const areaHa = Number(l.suprafata_mp) / 10000;
+      const isOverMax = filters.suprafataMax >= SUPRAFATA_MAX_LIMIT;
+      return areaHa >= filters.suprafataMin && (isOverMax || areaHa <= filters.suprafataMax);
+    });
 
     // Utilities filtering
     if (filters.hasCurent) {

@@ -19,7 +19,10 @@ export default function LandCard({ land, index = 0 }: LandCardProps) {
     }).format(price);
 
   const formatArea = (area: number) =>
-    new Intl.NumberFormat("ro-RO").format(area);
+    new Intl.NumberFormat("ro-RO", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    }).format(area / 10000);
 
   const statusColors: Record<string, string> = {
     disponibil: "bg-emerald-500",

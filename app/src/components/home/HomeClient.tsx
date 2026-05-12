@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { Landmark, ArrowRight, Search } from "lucide-react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { PRET_MAX_LIMIT, SUPRAFATA_MAX_LIMIT } from "@/lib/constants";
 import HeroSection from "@/components/home/HeroSection";
 const StatsSection = dynamic(() => import("@/components/home/StatsSection"), { ssr: false });
 const TrustSection = dynamic(() => import("@/components/home/TrustSection"), { ssr: false });
@@ -16,9 +17,9 @@ const INITIAL_FILTERS: FilterValues = {
   judet: "",
   tipHectar: "",
   pretMin: 0,
-  pretMax: 500000,
+  pretMax: PRET_MAX_LIMIT,
   suprafataMin: 0,
-  suprafataMax: 50000,
+  suprafataMax: SUPRAFATA_MAX_LIMIT,
   sortare: "recent",
 };
 
@@ -76,15 +77,19 @@ export default function HomeClient({ initialLands }: HomeClientProps) {
       results = results.filter((l) => l.tip_hectar === filters.tipHectar);
     }
 
-    // Price range (Convert to Number in case DB returned strings)
-    results = results.filter(
-      (l) => Number(l.pret) >= filters.pretMin && Number(l.pret) <= filters.pretMax
-    );
+    // Price range
+    results = results.filter((l) => {
+      const price = Number(l.pret);
+      const isOverMax = filters.pretMax >= PRET_MAX_LIMIT;
+      return price >= filters.pretMin && (filters.pretMax === 0 || isOverMax || price <= filters.pretMax);
+    });
 
-    // Area range
-    results = results.filter(
-      (l) => Number(l.suprafata_mp) >= filters.suprafataMin && Number(l.suprafata_mp) <= filters.suprafataMax
-    );
+    // Area range (converting sqm from DB to ha for comparison with filter)
+    results = results.filter((l) => {
+      const areaHa = Number(l.suprafata_mp) / 10000;
+      const isOverMax = filters.suprafataMax >= SUPRAFATA_MAX_LIMIT;
+      return areaHa >= filters.suprafataMin && (isOverMax || areaHa <= filters.suprafataMax);
+    });
 
     // Sorting
     switch (filters.sortare) {

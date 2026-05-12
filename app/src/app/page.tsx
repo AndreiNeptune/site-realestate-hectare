@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import HomeClient from "@/components/home/HomeClient";
 
-export const revalidate = 60; // Revalidate every 60 seconds
+export const revalidate = 0; // Disable cache for debugging
 
 export default async function HomePage() {
   const supabase = await createClient();
