@@ -229,8 +229,10 @@ export default function AdvancedFilterSheet({
             <div className="grid grid-cols-2 gap-3">
               {[
                 { value: "", label: "Toate" },
-                { value: "intravilan", label: "Intravilan" },
-                { value: "extravilan", label: "Extravilan" },
+                { value: "rezidential", label: "Rezidențial" },
+                { value: "industrial", label: "Industrial" },
+                { value: "agricol", label: "Agricol" },
+                { value: "pasune", label: "Pășune" },
               ].map((opt) => (
                 <button
                   key={opt.value}

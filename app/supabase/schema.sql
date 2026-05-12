@@ -10,8 +10,8 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- ENUM TYPES
 -- ============================================================
 
--- Tipul de teren: intravilan sau extravilan
-CREATE TYPE tip_teren_enum AS ENUM ('intravilan', 'extravilan');
+-- Tipul de teren: rezidential, industrial, agricol sau pasune
+CREATE TYPE tip_teren_enum AS ENUM ('rezidential', 'industrial', 'agricol', 'pasune');
 
 -- Statusul terenului pe platformă
 CREATE TYPE status_teren_enum AS ENUM ('disponibil', 'rezervat', 'vandut');
@@ -41,7 +41,7 @@ CREATE TABLE lands (
     -- Locație
     localitate    TEXT NOT NULL,
     judet         TEXT NOT NULL,
-    tip_teren     tip_teren_enum NOT NULL DEFAULT 'intravilan',
+    tip_hectar    tip_teren_enum NOT NULL DEFAULT 'rezidential',
 
     -- Coordonate GPS (latitudine, longitudine) pentru integrare cu hărți
     latitudine    DOUBLE PRECISION,

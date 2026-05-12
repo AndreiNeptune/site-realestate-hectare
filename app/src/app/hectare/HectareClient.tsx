@@ -35,8 +35,10 @@ const BUDGET_OPTIONS = [
 
 const TIP_OPTIONS = [
   { value: "", label: "Toate tipurile" },
-  { value: "intravilan", label: "Intravilan" },
-  { value: "extravilan", label: "Extravilan" },
+  { value: "rezidential", label: "Rezidențial" },
+  { value: "industrial", label: "Industrial" },
+  { value: "agricol", label: "Agricol" },
+  { value: "pasune", label: "Pășune" },
 ];
 
 const INITIAL_FILTERS: FilterValues = {

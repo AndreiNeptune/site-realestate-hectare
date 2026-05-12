@@ -4,7 +4,7 @@
 
 export const SITE_NAME = "HectarExpert";
 export const SITE_DESCRIPTION =
-  "Platforma #1 din România pentru vânzarea și cumpărarea de hectare. Găsește hectarul perfect - intravilan sau extravilan.";
+  "Platforma #1 din România pentru vânzarea și cumpărarea de hectare. Rezidențial, Industrial, Agricol sau Pășune.";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 // Lista județelor din România (pentru filtre/dropdown)
@@ -20,8 +20,10 @@ export const JUDETE = [
 
 // Tipuri de proprietate cu label-uri pentru UI
 export const TIP_HECTAR_OPTIONS = [
-  { value: "intravilan", label: "Hectar Intravilan" },
-  { value: "extravilan", label: "Hectar Extravilan" },
+  { value: "rezidential", label: "Rezidențial" },
+  { value: "industrial", label: "Industrial" },
+  { value: "agricol", label: "Agricol" },
+  { value: "pasune", label: "Pășune" },
 ] as const;
 
 // Status-uri hectar cu label-uri și culori pentru UI
