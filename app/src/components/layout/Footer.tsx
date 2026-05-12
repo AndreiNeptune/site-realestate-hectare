@@ -62,8 +62,10 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3">
               {[
-                "Hectare Intravilan",
-                "Hectare Extravilan",
+                "Teren Rezidențial",
+                "Teren Industrial",
+                "Teren Agricol",
+                "Pășuni și Fânețe",
                 "Evaluare Gratuită",
                 "Consultanță Imobiliară",
               ].map((item) => (

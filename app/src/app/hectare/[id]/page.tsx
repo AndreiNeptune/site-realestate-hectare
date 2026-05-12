@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   return {
     title: `${land.titlu} — ${formatPrice(land.pret)} € | HectarExpert`,
-    description: `${land.titlu} în ${land.localitate}, ${land.judet}. ${formatPrice(land.suprafata_mp)} mp, ${formatPrice(land.pret)} €. ${land.tip_hectar === "intravilan" ? "Hectar intravilan" : "Hectar extravilan"}.`,
+    description: `${land.titlu} în ${land.localitate}, ${land.judet}. ${formatPrice(land.suprafata_mp)} ha, ${formatPrice(land.pret)} €. Tip: ${land.tip_hectar}.`,
     openGraph: {
       title: land.titlu,
       description: `Hectar de vânzare în ${land.localitate}, ${land.judet} — ${formatPrice(land.pret)} €`,
