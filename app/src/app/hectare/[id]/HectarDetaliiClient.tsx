@@ -124,25 +124,24 @@ export default function HectarDetaliiClient({ land }: Props) {
   ];
 
   const handleShare = async () => {
-    const shareData = {
-      title: land.titlu,
-      text: `HectarExpert: ${land.titlu} — ${formatPrice(land.pret)} €`,
-      url: window.location.href,
-    };
-
+    const url = window.location.href;
+    
     try {
+      // Always copy to clipboard first as requested
+      await navigator.clipboard.writeText(url);
+      setShowCopyToast(true);
+
+      // Also try native share for better mobile experience if available
       if (navigator.share) {
-        await navigator.share(shareData);
-      } else {
-        await navigator.clipboard.writeText(window.location.href);
-        setShowCopyToast(true);
+        await navigator.share({
+          title: land.titlu,
+          text: `HectarExpert: ${land.titlu}`,
+          url: url,
+        });
       }
     } catch (err) {
-      // Fallback if sharing is cancelled or fails
-      if ((err as Error).name !== 'AbortError') {
-        await navigator.clipboard.writeText(window.location.href);
-        setShowCopyToast(true);
-      }
+      // Silence errors (like AbortError when user cancels share dialog)
+      console.log('Share interaction finished');
     }
   };
 
