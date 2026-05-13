@@ -39,7 +39,7 @@ export default function LandFilters({ filters, onFilterChange }: LandFiltersProp
       judet: "",
       tipHectar: "",
       pretMin: 0,
-      pretMax: PRET_MAX_LIMIT,
+      pretMax: -1,
 
       suprafataMin: 0,
       suprafataMax: SUPRAFATA_MAX_LIMIT,
@@ -51,7 +51,7 @@ export default function LandFilters({ filters, onFilterChange }: LandFiltersProp
     filters.judet !== "" ||
     filters.tipHectar !== "" ||
     filters.pretMin > 0 ||
-    filters.pretMax < PRET_MAX_LIMIT ||
+    filters.pretMax !== -1 && filters.pretMax < PRET_MAX_LIMIT ||
     filters.suprafataMin > 0 ||
     filters.suprafataMax < SUPRAFATA_MAX_LIMIT;
 
@@ -167,7 +167,7 @@ export default function LandFilters({ filters, onFilterChange }: LandFiltersProp
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-xs font-semibold text-primary">
                   <span>{formatNumber(filters.pretMin)} €</span>
-                  <span>{filters.pretMax >= PRET_MAX_LIMIT ? "NELIMITAT" : `${formatNumber(filters.pretMax)} €`}</span>
+                  <span>{filters.pretMax === -1 || filters.pretMax >= PRET_MAX_LIMIT ? "NELIMITAT" : `${formatNumber(filters.pretMax)} €`}</span>
                 </div>
                 <div className="space-y-2">
                   <input

@@ -26,7 +26,7 @@ interface FilterValues {
 }
 
 const BUDGET_OPTIONS = [
-  { value: PRET_MAX_LIMIT, label: "Orice buget" },
+  { value: -1, label: "Orice buget" },
   { value: 25000, label: "Sub 25.000 €" },
   { value: 50000, label: "25.000 — 50.000 €" },
   { value: 100000, label: "50.000 — 100.000 €" },
@@ -46,7 +46,7 @@ const INITIAL_FILTERS: FilterValues = {
   judet: "",
   tipHectar: "",
   pretMin: 0,
-  pretMax: PRET_MAX_LIMIT,
+  pretMax: -1,
 
   suprafataMin: 0,
   suprafataMax: SUPRAFATA_MAX_LIMIT,
@@ -95,7 +95,7 @@ export default function HectareClient({ initialLands }: HectareClientProps) {
     // Price range
     results = results.filter((l) => {
       const price = Number(l.pret);
-      const isOverMax = filters.pretMax >= PRET_MAX_LIMIT;
+      const isOverMax = filters.pretMax === -1 || filters.pretMax >= PRET_MAX_LIMIT;
       return price >= filters.pretMin && (isOverMax || price <= filters.pretMax);
     });
 

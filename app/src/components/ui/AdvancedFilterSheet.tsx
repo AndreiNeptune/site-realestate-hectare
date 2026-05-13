@@ -104,7 +104,7 @@ export default function AdvancedFilterSheet({
                 <span>Buget (€)</span>
               </label>
               <div className="px-3 py-1 bg-primary/5 rounded-full text-[11px] font-bold text-primary border border-primary/10">
-                {formatNumber(localFilters.pretMin)} - {localFilters.pretMax >= PRET_MAX_LIMIT ? "NELIMITAT" : `${formatNumber(localFilters.pretMax)} €`}
+                {formatNumber(localFilters.pretMin)} - {localFilters.pretMax === -1 || localFilters.pretMax >= PRET_MAX_LIMIT ? "NELIMITAT" : `${formatNumber(localFilters.pretMax)} €`}
               </div>
             </div>
             <div className="space-y-5 px-1">
@@ -126,7 +126,7 @@ export default function AdvancedFilterSheet({
               <div className="space-y-2">
                 <p className="text-[10px] font-bold text-muted uppercase tracking-widest flex justify-between">
                   <span>Maxim</span>
-                  <span className="text-foreground">{localFilters.pretMax >= PRET_MAX_LIMIT ? "NELIMITAT" : `${formatNumber(localFilters.pretMax)} €`}</span>
+                  <span className="text-foreground">{localFilters.pretMax === -1 || localFilters.pretMax >= PRET_MAX_LIMIT ? "NELIMITAT" : `${formatNumber(localFilters.pretMax)} €`}</span>
                 </p>
                 <input
                   type="range"

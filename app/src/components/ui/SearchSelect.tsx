@@ -85,7 +85,7 @@ export default function SearchSelect({
  
   const dropdownMenu = isOpen ? (
     <div
-      className="absolute top-[calc(100%+8px)] left-0 w-full bg-white rounded-2xl shadow-3xl border border-border/60 z-[100] animate-slide-up overflow-hidden flex flex-col"
+      className="absolute top-[calc(100%+8px)] left-0 w-full min-w-[200px] bg-white rounded-2xl shadow-3xl border border-border/60 z-[100] animate-slide-up overflow-hidden flex flex-col"
     >
       {searchable && (
         <div className="px-3 pb-2 pt-1 border-b border-border/40 sticky top-0 bg-white z-10">
@@ -116,7 +116,15 @@ export default function SearchSelect({
                 : "text-foreground/70 hover:bg-slate-100 hover:text-primary"
                 }`}
             >
-              {option.label}
+              {typeof option.label === 'string' && option.label.includes(" — ") ? (
+                <div className="flex flex-col py-0.5">
+                  <span className="text-sm font-bold">{option.label.split(" — ")[0]} €</span>
+                  <div className="h-px w-4 bg-border/40 my-1.5" />
+                  <span className="text-sm font-bold">{option.label.split(" — ")[1]}</span>
+                </div>
+              ) : (
+                option.label
+              )}
             </button>
           ))
         ) : (
