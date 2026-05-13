@@ -74,4 +74,4 @@ HectarExpert este o platformă modernă și performantă dedicată tranzacțion�
 
 ---
 
-Creat cu ❤️ de echipa HectarExpert.
+Creat cu ❤️ de [Andrei](https://github.com/AndreiNeptune).

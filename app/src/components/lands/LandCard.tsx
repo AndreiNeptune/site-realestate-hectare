@@ -90,7 +90,7 @@ export default function LandCard({ land, index = 0 }: LandCardProps) {
       {/* Card Body */}
       <div className="p-8 sm:p-10 pb-12">
         {/* Title */}
-        <h3 className="text-lg font-black text-foreground leading-tight mb-4 line-clamp-2 h-14 group-hover:text-primary transition-colors duration-300">
+        <h3 className="text-lg font-black text-foreground leading-tight mb-4 group-hover:text-primary transition-colors duration-300">
           {land.titlu}
         </h3>
 
@@ -106,7 +106,7 @@ export default function LandCard({ land, index = 0 }: LandCardProps) {
 
           {/* Area */}
           <div className="flex items-center gap-1.5 text-muted flex-shrink-0">
-            <Maximize className="w-3.5 h-3.5 text-primary/50 flex-shrink-0" />
+            <Maximize className="w-3.5 h-3.5 text-accent flex-shrink-0" />
             <span className="text-[11px] font-bold whitespace-nowrap">
               {formatArea(land.suprafata_mp)} ha
             </span>
@@ -118,9 +118,9 @@ export default function LandCard({ land, index = 0 }: LandCardProps) {
 
         {/* Price per sqm + CTA */}
         <div className="flex items-center justify-center py-2">
-          <div className="flex items-center gap-3 text-primary group-hover:text-accent font-black transition-colors">
+          <div className="flex items-center gap-3 text-accent group-hover:text-primary font-black transition-colors">
             <span className="text-xs uppercase tracking-widest">Detalii</span>
-            <div className="w-10 h-10 rounded-full bg-primary/5 flex items-center justify-center group-hover:bg-accent group-hover:text-primary-dark transition-all">
+            <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center group-hover:bg-accent group-hover:text-white transition-all">
               <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
             </div>
           </div>

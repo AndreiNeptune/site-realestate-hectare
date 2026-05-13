@@ -1,7 +1,6 @@
 "use client";
  
-import { useState, useRef, useEffect, useMemo, useLayoutEffect } from "react";
-import { createPortal } from "react-dom";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { ChevronDown } from "lucide-react";
  
 interface Option {
@@ -34,7 +33,6 @@ export default function SearchSelect({
 }: SearchSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [coords, setCoords] = useState({ top: 0, left: 0, width: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
  
@@ -42,39 +40,12 @@ export default function SearchSelect({
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        // Only close if we didn't click inside the portal (which would be outside containerRef)
-        const portalMenu = document.getElementById("search-select-portal-menu");
-        if (portalMenu && portalMenu.contains(event.target as Node)) return;
         setIsOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
- 
-  // Update position when opening or on scroll/resize
-  const updatePosition = () => {
-    if (containerRef.current) {
-      const rect = containerRef.current.getBoundingClientRect();
-      setCoords({
-        top: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX,
-        width: rect.width,
-      });
-    }
-  };
- 
-  useLayoutEffect(() => {
-    if (isOpen) {
-      updatePosition();
-      window.addEventListener("scroll", updatePosition);
-      window.addEventListener("resize", updatePosition);
-    }
-    return () => {
-      window.removeEventListener("scroll", updatePosition);
-      window.removeEventListener("resize", updatePosition);
-    };
-  }, [isOpen]);
  
   // Auto-focus search input when opening
   useEffect(() => {
@@ -112,15 +83,9 @@ export default function SearchSelect({
       });
   }, [options, searchTerm]);
  
-  const dropdownMenu = isOpen && typeof window !== "undefined" ? (
+  const dropdownMenu = isOpen ? (
     <div
-      id="search-select-portal-menu"
-      className="fixed bg-white rounded-2xl shadow-3xl border border-border/60 z-[9999] animate-slide-up overflow-hidden flex flex-col pointer-events-auto"
-      style={{
-        top: `${coords.top - (typeof window !== "undefined" ? window.scrollY : 0) + 8}px`,
-        left: `${coords.left - (typeof window !== "undefined" ? window.scrollX : 0)}px`,
-        width: `${coords.width}px`,
-      }}
+      className="absolute top-[calc(100%+8px)] left-0 w-full bg-white rounded-2xl shadow-3xl border border-border/60 z-[100] animate-slide-up overflow-hidden flex flex-col"
     >
       {searchable && (
         <div className="px-3 pb-2 pt-1 border-b border-border/40 sticky top-0 bg-white z-10">
@@ -195,7 +160,7 @@ export default function SearchSelect({
         </div>
       </button>
  
-      {isOpen && typeof document !== "undefined" && createPortal(dropdownMenu, document.body)}
+      {dropdownMenu}
     </div>
   );
 }

@@ -167,7 +167,7 @@ export default function LandFilters({ filters, onFilterChange }: LandFiltersProp
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-xs font-semibold text-primary">
                   <span>{formatNumber(filters.pretMin)} €</span>
-                  <span>{filters.pretMax >= PRET_MAX_LIMIT ? "500.000+ €" : `${formatNumber(filters.pretMax)} €`}</span>
+                  <span>{filters.pretMax >= PRET_MAX_LIMIT ? "NELIMITAT" : `${formatNumber(filters.pretMax)} €`}</span>
                 </div>
                 <div className="space-y-2">
                   <input
@@ -201,12 +201,12 @@ export default function LandFilters({ filters, onFilterChange }: LandFiltersProp
             {/* Suprafață Range */}
             <div>
               <label className="block text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-2">
-                Suprafață (ha)
+                Suprafață <span className="normal-case">(m²)</span>
               </label>
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-xs font-semibold text-primary">
-                  <span>{formatNumber(filters.suprafataMin)} ha</span>
-                  <span>{filters.suprafataMax >= SUPRAFATA_MAX_LIMIT ? "50.000+ ha" : `${formatNumber(filters.suprafataMax)} ha`}</span>
+                  <span>{formatNumber(filters.suprafataMin)} m²</span>
+                  <span>{filters.suprafataMax >= SUPRAFATA_MAX_LIMIT ? "NELIMITAT" : `${formatNumber(filters.suprafataMax)} m²`}</span>
                 </div>
                 <div className="space-y-2">
                   <input

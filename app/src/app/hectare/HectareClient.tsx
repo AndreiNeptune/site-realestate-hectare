@@ -26,7 +26,7 @@ interface FilterValues {
 }
 
 const BUDGET_OPTIONS = [
-  { value: 0, label: "Orice buget" },
+  { value: PRET_MAX_LIMIT, label: "Orice buget" },
   { value: 25000, label: "Sub 25.000 €" },
   { value: 50000, label: "25.000 — 50.000 €" },
   { value: 100000, label: "50.000 — 100.000 €" },
@@ -49,7 +49,7 @@ const INITIAL_FILTERS: FilterValues = {
   pretMax: PRET_MAX_LIMIT,
 
   suprafataMin: 0,
-  suprafataMax: 50000,
+  suprafataMax: SUPRAFATA_MAX_LIMIT,
   sortare: "recent",
   hasCurent: false,
   hasApa: false,
@@ -96,14 +96,14 @@ export default function HectareClient({ initialLands }: HectareClientProps) {
     results = results.filter((l) => {
       const price = Number(l.pret);
       const isOverMax = filters.pretMax >= PRET_MAX_LIMIT;
-      return price >= filters.pretMin && (filters.pretMax === 0 || isOverMax || price <= filters.pretMax);
+      return price >= filters.pretMin && (isOverMax || price <= filters.pretMax);
     });
 
-    // Area range (converting sqm from DB to ha for comparison with filter)
+    // Area range (using sqm directly)
     results = results.filter((l) => {
-      const areaHa = Number(l.suprafata_mp) / 10000;
+      const areaMp = Number(l.suprafata_mp);
       const isOverMax = filters.suprafataMax >= SUPRAFATA_MAX_LIMIT;
-      return areaHa >= filters.suprafataMin && (isOverMax || areaHa <= filters.suprafataMax);
+      return areaMp >= filters.suprafataMin && (isOverMax || areaMp <= filters.suprafataMax);
     });
 
     // Utilities filtering

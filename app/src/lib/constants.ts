@@ -47,4 +47,4 @@ export const ITEMS_PER_PAGE = 12;
 
 // Filter Limits
 export const PRET_MAX_LIMIT = 500000;
-export const SUPRAFATA_MAX_LIMIT = 50000;
+export const SUPRAFATA_MAX_LIMIT = 100000;

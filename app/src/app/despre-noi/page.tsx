@@ -155,9 +155,9 @@ export default function DespreNoiPage() {
           <p className="text-muted text-lg mb-12">
             Nu suntem doar o platformă de anunțuri. Suntem partenerul tău în identificarea celor mai bune oportunități de pe piața funciară.
           </p>
-          <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:justify-center max-w-xl mx-auto">
-             {["Consultantă Legală", "Analiză Topografică", "Evaluare Preț Piață", "Suport Tranzacționare"].map((tag, idx) => (
-               <span key={idx} className="px-4 py-2.5 bg-surface text-foreground font-bold rounded-2xl border border-border flex items-center justify-center text-center text-sm sm:text-base">
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4 max-w-2xl mx-auto">
+             {["Consultanță Legală", "Analiză Topografică", "Evaluare Preț Piață", "Suport Tranzacționare"].map((tag, idx) => (
+               <span key={idx} className="px-6 py-3 bg-surface text-foreground font-bold rounded-2xl border border-border flex items-center justify-center text-center text-sm sm:text-base whitespace-nowrap shadow-sm hover:shadow-md transition-shadow">
                  {tag}
                </span>
              ))}

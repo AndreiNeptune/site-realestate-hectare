@@ -104,7 +104,7 @@ export default function AdvancedFilterSheet({
                 <span>Buget (€)</span>
               </label>
               <div className="px-3 py-1 bg-primary/5 rounded-full text-[11px] font-bold text-primary border border-primary/10">
-                {formatNumber(localFilters.pretMin)} - {localFilters.pretMax === 0 ? "nelimitat" : `${formatNumber(localFilters.pretMax)} €`}
+                {formatNumber(localFilters.pretMin)} - {localFilters.pretMax >= PRET_MAX_LIMIT ? "NELIMITAT" : `${formatNumber(localFilters.pretMax)} €`}
               </div>
             </div>
             <div className="space-y-5 px-1">
@@ -126,7 +126,7 @@ export default function AdvancedFilterSheet({
               <div className="space-y-2">
                 <p className="text-[10px] font-bold text-muted uppercase tracking-widest flex justify-between">
                   <span>Maxim</span>
-                  <span className="text-foreground">{localFilters.pretMax === 0 ? "Nelimitat" : `${formatNumber(localFilters.pretMax)} €`}</span>
+                  <span className="text-foreground">{localFilters.pretMax >= PRET_MAX_LIMIT ? "NELIMITAT" : `${formatNumber(localFilters.pretMax)} €`}</span>
                 </p>
                 <input
                   type="range"
@@ -146,23 +146,23 @@ export default function AdvancedFilterSheet({
             <div className="flex items-center justify-between">
               <label className="flex items-center gap-2.5 text-xs font-black text-foreground uppercase tracking-widest">
                 <Maximize2 className="w-4 h-4 text-primary" />
-                <span>Suprafață (ha)</span>
+                <span>Suprafață <span className="normal-case">(m²)</span></span>
               </label>
               <div className="px-3 py-1 bg-primary/5 rounded-full text-[11px] font-bold text-primary border border-primary/10">
-                {formatNumber(localFilters.suprafataMin)} - {localFilters.suprafataMax >= SUPRAFATA_MAX_LIMIT ? "50.0+ ha" : `${formatNumber(localFilters.suprafataMax)} ha`}
+                {formatNumber(localFilters.suprafataMin)} - {localFilters.suprafataMax >= SUPRAFATA_MAX_LIMIT ? "100.000+ m²" : `${formatNumber(localFilters.suprafataMax)} m²`}
               </div>
             </div>
             <div className="space-y-5 px-1">
               <div className="space-y-2">
                 <p className="text-[10px] font-bold text-muted uppercase tracking-widest flex justify-between">
                   <span>Minim</span>
-                  <span className="text-foreground">{localFilters.suprafataMin} ha</span>
+                  <span className="text-foreground normal-case">{formatNumber(localFilters.suprafataMin)} m²</span>
                 </p>
                 <input
                   type="range"
                   min={0}
                   max={SUPRAFATA_MAX_LIMIT}
-                  step={100}
+                  step={500}
                   value={localFilters.suprafataMin}
                   onChange={(e) => updateLocalFilter("suprafataMin", Number(e.target.value))}
                   className="w-full accent-primary"
@@ -171,13 +171,13 @@ export default function AdvancedFilterSheet({
               <div className="space-y-2">
                 <p className="text-[10px] font-bold text-muted uppercase tracking-widest flex justify-between">
                   <span>Maxim</span>
-                  <span className="text-foreground">{localFilters.suprafataMax >= SUPRAFATA_MAX_LIMIT ? "Nelimitat" : `${localFilters.suprafataMax} ha`}</span>
+                  <span className="text-foreground normal-case">{localFilters.suprafataMax >= SUPRAFATA_MAX_LIMIT ? "NELIMITAT" : `${formatNumber(localFilters.suprafataMax)} m²`}</span>
                 </p>
                 <input
                   type="range"
                   min={0}
                   max={SUPRAFATA_MAX_LIMIT}
-                  step={100}
+                  step={500}
                   value={localFilters.suprafataMax}
                   onChange={(e) => updateLocalFilter("suprafataMax", Number(e.target.value))}
                   className="w-full accent-primary"
