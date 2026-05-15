@@ -122,8 +122,8 @@ export default function LandCard({ land, index = 0 }: LandCardProps) {
           </div>
 
           {/* Price per sqm */}
-          <div className="flex items-center gap-1 text-primary flex-shrink-0 ml-auto border-l border-border/50 pl-4">
-            <span className="text-[11px] font-extrabold whitespace-nowrap">
+          <div className="flex items-center gap-1 text-muted flex-shrink-0 ml-auto border-l border-border/50 pl-4">
+            <span className="text-[11px] font-bold whitespace-nowrap">
               {formatPricePerSqm(land.pret, land.suprafata_mp)} €/m²
             </span>
           </div>
