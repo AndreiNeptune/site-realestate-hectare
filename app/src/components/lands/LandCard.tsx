@@ -21,8 +21,17 @@ export default function LandCard({ land, index = 0 }: LandCardProps) {
   const formatArea = (area: number) =>
     new Intl.NumberFormat("ro-RO", {
       minimumFractionDigits: 0,
-      maximumFractionDigits: 2,
-    }).format(area / 10000);
+      maximumFractionDigits: 0,
+    }).format(area);
+
+  const formatPricePerSqm = (price: number, area: number) => {
+    if (!area) return "0";
+    return new Intl.NumberFormat("ro-RO", {
+      style: "decimal",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 1,
+    }).format(price / area);
+  };
 
   const statusColors: Record<string, string> = {
     disponibil: "bg-emerald-500",
@@ -108,7 +117,14 @@ export default function LandCard({ land, index = 0 }: LandCardProps) {
           <div className="flex items-center gap-1.5 text-muted flex-shrink-0">
             <Maximize className="w-3.5 h-3.5 text-accent flex-shrink-0" />
             <span className="text-[11px] font-bold whitespace-nowrap">
-              {formatArea(land.suprafata_mp)} ha
+              {formatArea(land.suprafata_mp)} m²
+            </span>
+          </div>
+
+          {/* Price per sqm */}
+          <div className="flex items-center gap-1 text-primary flex-shrink-0 ml-auto border-l border-border/50 pl-4">
+            <span className="text-[11px] font-extrabold whitespace-nowrap">
+              {formatPricePerSqm(land.pret, land.suprafata_mp)} €/m²
             </span>
           </div>
         </div>
