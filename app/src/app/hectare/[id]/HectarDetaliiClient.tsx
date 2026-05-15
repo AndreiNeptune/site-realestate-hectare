@@ -47,8 +47,8 @@ export default function HectarDetaliiClient({ land }: Props) {
   const formatArea = (area: number) =>
     new Intl.NumberFormat("ro-RO", {
       minimumFractionDigits: 0,
-      maximumFractionDigits: 4,
-    }).format(area / 10000);
+      maximumFractionDigits: 0,
+    }).format(area);
 
   const formatDate = (dateString: string) =>
     new Intl.DateTimeFormat("ro-RO", {
@@ -78,7 +78,7 @@ export default function HectarDetaliiClient({ land }: Props) {
     {
       icon: <Maximize className="w-5 h-5" />,
       label: "Suprafață",
-      value: `${formatArea(land.suprafata_mp)} ha`,
+      value: `${formatArea(land.suprafata_mp)} m²`,
     },
     {
       icon: <Layers className="w-5 h-5" />,
@@ -230,17 +230,22 @@ export default function HectarDetaliiClient({ land }: Props) {
                 <div className="flex items-center gap-2">
                   <Maximize className="w-4 h-4 text-primary/50 flex-shrink-0" />
                   <span className="font-medium">
-                    {formatArea(land.suprafata_mp)} ha
+                    {formatArea(land.suprafata_mp)} m²
                   </span>
                 </div>
               </div>
 
               {/* Price highlight */}
-              <div className="mt-5 inline-flex items-center gap-3 px-5 py-3.5 bg-primary/5 rounded-2xl border border-primary/10">
-                <Tag className="w-5 h-5 text-accent flex-shrink-0" />
-                <span className="text-2xl font-extrabold text-primary tracking-tight">
-                  {formatPrice(land.pret)} €
-                </span>
+              <div className="mt-5 flex items-center gap-4">
+                <div className="inline-flex items-center gap-3 px-5 py-3.5 bg-primary/5 rounded-2xl border border-primary/10">
+                  <Tag className="w-5 h-5 text-accent flex-shrink-0" />
+                  <span className="text-2xl font-extrabold text-primary tracking-tight">
+                    {formatPrice(land.pret)} €
+                  </span>
+                </div>
+                <div className="text-lg font-bold text-muted/60">
+                  {formatPrice(pricePerSqm)} €/m²
+                </div>
               </div>
             </div>
 
