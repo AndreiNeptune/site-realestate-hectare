@@ -84,11 +84,11 @@ export default function HomeClient({ initialLands }: HomeClientProps) {
       return price >= filters.pretMin && (filters.pretMax === 0 || isOverMax || price <= filters.pretMax);
     });
 
-    // Area range (converting sqm from DB to ha for comparison with filter)
+    // Area range (using sqm directly)
     results = results.filter((l) => {
-      const areaHa = Number(l.suprafata_mp) / 10000;
+      const areaMp = Number(l.suprafata_mp);
       const isOverMax = filters.suprafataMax >= SUPRAFATA_MAX_LIMIT;
-      return areaHa >= filters.suprafataMin && (isOverMax || areaHa <= filters.suprafataMax);
+      return areaMp >= filters.suprafataMin && (isOverMax || areaMp <= filters.suprafataMax);
     });
 
     // Sorting
