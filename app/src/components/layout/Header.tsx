@@ -96,7 +96,7 @@ export default function Header() {
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-4 flex-shrink-0">
             <a
-              href="tel:+40700000000"
+              href="tel:+40742044077"
               className={`flex items-center gap-2 text-sm font-medium transition-colors whitespace-nowrap ${
                 isSolid
                   ? "text-muted hover:text-primary"
@@ -104,7 +104,7 @@ export default function Header() {
               }`}
             >
               <Phone className="w-4 h-4 flex-shrink-0" />
-              <span>0700 000 000</span>
+              <span>0742 044 077</span>
             </a>
 
             <Link
@@ -156,11 +156,11 @@ export default function Header() {
             ))}
             <div className="pt-4 border-t border-border mt-3 space-y-3">
               <a
-                href="tel:+40700000000"
+                href="tel:+40742044077"
                 className="flex items-center gap-2.5 px-4 py-3 text-sm font-medium text-muted"
               >
                 <Phone className="w-4 h-4 flex-shrink-0" />
-                <span>0700 000 000</span>
+                <span>0742 044 077</span>
               </a>
 
               <div className="px-4 pb-2">

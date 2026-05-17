@@ -112,7 +112,12 @@ export default function ContactPage() {
                   </div>
                   <div className="text-left">
                     <p className="text-[11px] font-bold text-muted-light uppercase tracking-widest mb-1.5">Telefon Direct</p>
-                    <p className="text-xl font-black text-foreground hover:text-primary transition-colors cursor-pointer whitespace-nowrap leading-none">0700 000 000</p>
+                    <a
+                      href="tel:+40742044077"
+                      className="text-xl font-black text-foreground hover:text-primary transition-colors cursor-pointer whitespace-nowrap leading-none block"
+                    >
+                      0742 044 077
+                    </a>
                     <p className="text-xs text-muted-light mt-1.5">Luni - Vineri, 09:00 - 18:00</p>
                   </div>
                 </div>

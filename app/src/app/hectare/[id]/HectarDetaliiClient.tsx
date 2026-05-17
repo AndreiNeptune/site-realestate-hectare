@@ -352,7 +352,7 @@ export default function HectarDetaliiClient({ land }: Props) {
                   Sau sună direct
                 </p>
                 <a
-                  href="tel:+40700000000"
+                  href="tel:+40742044077"
                   className="flex items-center gap-4 px-4 py-3.5 bg-white rounded-xl border border-border hover:border-primary/20 hover:shadow-sm transition-all group"
                 >
                   <div className="w-10 h-10 bg-primary/5 text-primary rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-white transition-all duration-300">
@@ -360,7 +360,7 @@ export default function HectarDetaliiClient({ land }: Props) {
                   </div>
                   <div>
                     <p className="text-sm font-bold text-foreground">
-                      0700 000 000
+                      0742 044 077
                     </p>
                     <p className="text-[11px] text-muted font-medium mt-0.5">
                       Luni - Vineri, 09:00 - 18:00
