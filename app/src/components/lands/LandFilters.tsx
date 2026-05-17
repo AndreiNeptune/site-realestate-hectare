@@ -59,7 +59,7 @@ export default function LandFilters({ filters, onFilterChange }: LandFiltersProp
     new Intl.NumberFormat("ro-RO").format(n);
 
   return (
-    <div className="bg-white rounded-2xl border border-border shadow-sm transition-all duration-300">
+    <div className="relative z-30 bg-white rounded-2xl border border-border shadow-sm transition-all duration-300">
       {/* Filter Header */}
       <div className="flex items-center justify-between px-5 py-3.5 min-h-[64px]">
         <button
