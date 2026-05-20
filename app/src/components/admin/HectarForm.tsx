@@ -306,6 +306,7 @@ export function HectarForm({ initialData }: HectarFormProps) {
               <option value="industrial">Industrial</option>
               <option value="agricol">Agricol</option>
               <option value="pasune">Pășune</option>
+              <option value="ferma">Fermă</option>
            </select>
         </div>
 
