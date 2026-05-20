@@ -39,6 +39,7 @@ const TIP_OPTIONS = [
   { value: "industrial", label: "Industrial" },
   { value: "agricol", label: "Agricol" },
   { value: "pasune", label: "Pășune" },
+  { value: "ferma", label: "Fermă" },
 ];
 
 const INITIAL_FILTERS: FilterValues = {

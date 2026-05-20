@@ -88,6 +88,7 @@ export default function HectarDetaliiClient({ land }: Props) {
         industrial: "Industrial",
         agricol: "Agricol",
         pasune: "Pășune",
+        ferma: "Fermă",
       }[land.tip_hectar] || land.tip_hectar,
     },
     {
