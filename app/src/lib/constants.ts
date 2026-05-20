@@ -4,7 +4,7 @@
 
 export const SITE_NAME = "HectarExpert";
 export const SITE_DESCRIPTION =
-  "Platforma #1 din România pentru vânzarea și cumpărarea de hectare. Rezidențial, Industrial, Agricol sau Pășune.";
+  "Platforma #1 din România pentru vânzarea și cumpărarea de hectare. Rezidențial, Industrial, Agricol, Pășune sau Fermă.";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 // Lista județelor din România (pentru filtre/dropdown)
@@ -24,6 +24,7 @@ export const TIP_HECTAR_OPTIONS = [
   { value: "industrial", label: "Industrial" },
   { value: "agricol", label: "Agricol" },
   { value: "pasune", label: "Pășune" },
+  { value: "ferma", label: "Fermă" },
 ] as const;
 
 // Status-uri hectar cu label-uri și culori pentru UI

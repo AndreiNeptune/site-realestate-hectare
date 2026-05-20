@@ -10,8 +10,8 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- ENUM TYPES
 -- ============================================================
 
--- Tipul de teren: rezidential, industrial, agricol sau pasune
-CREATE TYPE tip_teren_enum AS ENUM ('rezidential', 'industrial', 'agricol', 'pasune');
+-- Tipul de teren: rezidential, industrial, agricol, pasune sau ferma
+CREATE TYPE tip_teren_enum AS ENUM ('rezidential', 'industrial', 'agricol', 'pasune', 'ferma');
 
 -- Statusul terenului pe platformă
 CREATE TYPE status_teren_enum AS ENUM ('disponibil', 'rezervat', 'vandut');

@@ -2,7 +2,7 @@
 // Tipuri TypeScript - oglindesc schema SQL
 // ============================================================
 
-export type TipHectar = "rezidential" | "industrial" | "agricol" | "pasune";
+export type TipHectar = "rezidential" | "industrial" | "agricol" | "pasune" | "ferma";
 
 export type StatusHectar = "disponibil" | "rezervat" | "vandut";
 
