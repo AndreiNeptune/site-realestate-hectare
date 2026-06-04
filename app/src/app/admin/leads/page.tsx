@@ -6,14 +6,15 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 export const dynamic = 'force-dynamic'
 
 interface PageProps {
-  searchParams: { page?: string }
+  searchParams: Promise<{ page?: string }>
 }
 
-export default async function AdminLeadsPage({ searchParams }: PageProps) {
+export default async function AdminLeadsPage(props: PageProps) {
+  const searchParams = await props.searchParams;
   const supabase = await createClient()
   
   const pageSize = 10
-  const currentPage = parseInt(searchParams.page || '1')
+  const currentPage = parseInt(searchParams?.page || '1')
   const from = (currentPage - 1) * pageSize
   const to = from + pageSize - 1
 
@@ -32,6 +33,9 @@ export default async function AdminLeadsPage({ searchParams }: PageProps) {
   const hasNextPage = currentPage < totalPages
   const hasPreviousPage = currentPage > 1
 
+  const startItem = count === 0 ? 0 : from + 1
+  const endItem = Math.min(currentPage * pageSize, count || 0)
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -40,7 +44,7 @@ export default async function AdminLeadsPage({ searchParams }: PageProps) {
           <p className="text-sm text-gray-500 mt-1">Gestionează cererile și lead-urile primite pe platformă.</p>
         </div>
         <div className="flex items-center gap-2 text-xs font-medium text-gray-500 bg-white border border-gray-200 px-3 py-1.5 rounded-lg shadow-sm">
-          <span>Total: {count || 0} contacte</span>
+          <span>{startItem}-{endItem} din {count || 0} contacte</span>
         </div>
       </div>
 
