@@ -80,7 +80,7 @@ export default async function AdminHectarePage(props: { searchParams: Promise<{ 
                            )}
                         </div>
                         <div className="flex-col min-w-0">
-                          <div className="font-medium text-gray-900 truncate max-w-[200px]" title={hectar.titlu}>
+                          <div className="font-medium text-gray-900 truncate max-w-[450px]" title={hectar.titlu}>
                             {hectar.titlu}
                           </div>
                           <div className="text-xs text-gray-500 mt-1 flex items-center gap-1.5">
