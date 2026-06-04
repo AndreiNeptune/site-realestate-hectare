@@ -57,7 +57,7 @@ export default function HectarDetaliiClient({ land }: Props) {
       year: "numeric",
     }).format(new Date(dateString));
 
-  const pricePerSqm = Math.round(land.pret / land.suprafata_mp);
+  const totalPrice = Math.round(land.pret * land.suprafata_mp);
 
   const statusColors: Record<string, string> = {
     disponibil: "bg-emerald-500",
@@ -89,6 +89,7 @@ export default function HectarDetaliiClient({ land }: Props) {
         agricol: "Agricol",
         pasune: "Pășune",
         ferma: "Fermă",
+        padure: "Pădure",
       }[land.tip_hectar] || land.tip_hectar,
     },
     {
@@ -213,7 +214,14 @@ export default function HectarDetaliiClient({ land }: Props) {
                   {statusLabels[land.status]}
                 </span>
                 <span className="inline-flex items-center px-3 py-1.5 bg-surface rounded-lg text-[11px] font-bold text-primary uppercase tracking-wider border border-border">
-                  {land.tip_hectar}
+                  {{
+                    rezidential: "Rezidențial",
+                    industrial: "Industrial",
+                    agricol: "Agricol",
+                    pasune: "Pășune",
+                    ferma: "Fermă",
+                    padure: "Pădure",
+                  }[land.tip_hectar] || land.tip_hectar}
                 </span>
               </div>
 
@@ -241,11 +249,11 @@ export default function HectarDetaliiClient({ land }: Props) {
                 <div className="inline-flex items-center gap-3 px-5 py-3.5 bg-primary/5 rounded-2xl border border-primary/10">
                   <Tag className="w-5 h-5 text-accent flex-shrink-0" />
                   <span className="text-2xl font-extrabold text-primary tracking-tight">
-                    {formatPrice(land.pret)} €
+                    {formatPrice(land.pret)} €/m²
                   </span>
                 </div>
                 <div className="text-lg font-bold text-muted/60">
-                  {formatPrice(pricePerSqm)} €/m²
+                  Total: {formatPrice(totalPrice)} €
                 </div>
               </div>
             </div>

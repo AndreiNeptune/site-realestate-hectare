@@ -84,9 +84,14 @@ export default async function AdminHectarePage() {
                        </div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="font-medium text-gray-900 flex items-center gap-1">
-                        <Euro className="w-3.5 h-3.5 text-gray-500" />
-                        {hectar.pret.toLocaleString('ro-RO')}
+                      <div className="flex flex-col gap-1">
+                        <div className="font-medium text-gray-900 flex items-center gap-1">
+                          <Euro className="w-3.5 h-3.5 text-gray-500" />
+                          {hectar.pret.toLocaleString('ro-RO')} €/mp
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          Total: {(hectar.pret * hectar.suprafata_mp).toLocaleString('ro-RO')} €
+                        </div>
                       </div>
                     </td>
                     <td className="px-6 py-4">

@@ -22,12 +22,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const formatPrice = (price: number) =>
     new Intl.NumberFormat("ro-RO").format(price);
 
+  const totalPrice = land.pret * land.suprafata_mp;
+
   return {
-    title: `${land.titlu} — ${formatPrice(land.pret)} € | HectarExpert`,
-    description: `${land.titlu} în ${land.localitate}, ${land.judet}. ${formatPrice(land.suprafata_mp)} ha, ${formatPrice(land.pret)} €. Tip: ${land.tip_hectar}.`,
+    title: `${land.titlu} — ${formatPrice(land.pret)} €/m² | HectarExpert`,
+    description: `${land.titlu} în ${land.localitate}, ${land.judet}. Suprafață: ${formatPrice(land.suprafata_mp)} mp. Preț: ${formatPrice(totalPrice)} € (${formatPrice(land.pret)} €/m²).`,
     openGraph: {
       title: land.titlu,
-      description: `Hectar de vânzare în ${land.localitate}, ${land.judet} — ${formatPrice(land.pret)} €`,
+      description: `Teren de vânzare în ${land.localitate}, ${land.judet} — Total: ${formatPrice(totalPrice)} € (${formatPrice(land.pret)} €/m²)`,
       images: land.imagini?.[0] ? [land.imagini[0]] : [],
     },
   };
