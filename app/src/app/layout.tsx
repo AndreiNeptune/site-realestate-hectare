@@ -13,7 +13,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "HectarExpert — Investiții Inteligente în Hectare",
   description:
-    "Platforma #1 din România pentru vânzarea și cumpărarea de hectare. Rezidențial, Industrial, Agricol, Pășune sau Fermă.",
+    "Platforma #1 din România pentru vânzarea și cumpărarea de hectare. Rezidențial, Industrial, Agricol, Pășune, Fermă sau Pădure.",
   keywords: [
     "hectare de vanzare",
     "hectare rezidential",
@@ -22,6 +22,8 @@ export const metadata: Metadata = {
     "pasune de vanzare",
     "hectare ferma",
     "ferma de vanzare",
+    "hectare padure",
+    "padure de vanzare",
     "hectar romania",
   ],
   openGraph: {

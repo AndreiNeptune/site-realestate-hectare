@@ -65,6 +65,7 @@ export default function Footer() {
                 "Teren Rezidențial",
                 "Teren Industrial",
                 "Teren Agricol",
+                "Teren Pădure",
                 "Pășuni și Fânețe",
                 "Evaluare Gratuită",
                 "Consultanță Imobiliară",

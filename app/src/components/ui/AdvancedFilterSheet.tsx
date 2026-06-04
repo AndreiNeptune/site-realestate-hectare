@@ -234,6 +234,7 @@ export default function AdvancedFilterSheet({
                 { value: "agricol", label: "Agricol" },
                 { value: "pasune", label: "Pășune" },
                 { value: "ferma", label: "Fermă" },
+                { value: "padure", label: "Pădure" },
               ].map((opt) => (
                 <button
                   key={opt.value}

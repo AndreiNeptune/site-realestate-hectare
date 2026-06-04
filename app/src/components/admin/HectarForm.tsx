@@ -241,7 +241,7 @@ export function HectarForm({ initialData }: HectarFormProps) {
 
         {/* Preț */}
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">Preț (Euro) <span className="text-red-500">*</span></label>
+          <label className="text-sm font-medium text-gray-700">Preț / mp (Euro) <span className="text-red-500">*</span></label>
           <input 
             required 
             name="pret" 
@@ -249,7 +249,7 @@ export function HectarForm({ initialData }: HectarFormProps) {
             step="0.01" 
             min="0" 
             defaultValue={initialData?.pret}
-            placeholder="Ex: 50000" 
+            placeholder="Ex: 30" 
             className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-colors" 
           />
         </div>
@@ -307,6 +307,7 @@ export function HectarForm({ initialData }: HectarFormProps) {
               <option value="agricol">Agricol</option>
               <option value="pasune">Pășune</option>
               <option value="ferma">Fermă</option>
+              <option value="padure">Pădure</option>
            </select>
         </div>
 

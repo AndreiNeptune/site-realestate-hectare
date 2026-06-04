@@ -96,7 +96,7 @@ export default function DespreNoiPage() {
                   Misiunea noastră: Simplificăm investițiile în terenuri
                 </h2>
                 <p className="text-muted text-lg leading-relaxed">
-                  HectarExpert a luat naștere dintr-o nevoie clară: piața terenurilor din România — fie ele rezidențiale, industriale, agricole sau pășuni — era fragmentată și adesea lipsită de transparență. Ne-am propus să creăm o punte digitală între vânzători corecți și investitori vizionari.
+                  HectarExpert a luat naștere dintr-o nevoie clară: piața terenurilor din România — fie ele rezidențiale, industriale, agricole, pășuni sau păduri — era fragmentată și adesea lipsită de transparență. Ne-am propus să creăm o punte digitală între vânzători corecți și investitori vizionari.
                 </p>
               </div>
 
