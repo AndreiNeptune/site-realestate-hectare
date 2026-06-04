@@ -24,13 +24,12 @@ export default function LandCard({ land, index = 0 }: LandCardProps) {
       maximumFractionDigits: 0,
     }).format(area);
 
-  const formatPricePerSqm = (price: number, area: number) => {
-    if (!area) return "0";
+  const formatTotalPrice = (price: number, area: number) => {
     return new Intl.NumberFormat("ro-RO", {
       style: "decimal",
       minimumFractionDigits: 0,
-      maximumFractionDigits: 1,
-    }).format(price / area);
+      maximumFractionDigits: 0,
+    }).format(price * area);
   };
 
   const statusColors: Record<string, string> = {
@@ -43,6 +42,15 @@ export default function LandCard({ land, index = 0 }: LandCardProps) {
     disponibil: "Disponibil",
     rezervat: "Rezervat",
     vandut: "Vândut",
+  };
+
+  const typeLabels: Record<string, string> = {
+    rezidential: "Rezidențial",
+    industrial: "Industrial",
+    agricol: "Agricol",
+    pasune: "Pășune",
+    ferma: "Fermă",
+    padure: "Pădure",
   };
 
   const staggerClass = index < 9 ? `stagger-${index + 1}` : "";
@@ -81,7 +89,7 @@ export default function LandCard({ land, index = 0 }: LandCardProps) {
 
           {/* Type badge */}
           <span className="inline-flex items-center px-3 py-1 bg-white text-primary rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">
-            {land.tip_hectar}
+            {typeLabels[land.tip_hectar] || land.tip_hectar}
           </span>
         </div>
 
@@ -90,7 +98,7 @@ export default function LandCard({ land, index = 0 }: LandCardProps) {
           <div className="flex items-center gap-2 px-4 py-2 bg-white/95 backdrop-blur-md rounded-2xl border border-white/20 shadow-xl">
             <Tag className="w-4 h-4 text-accent flex-shrink-0" />
             <span className="text-lg font-black text-primary tracking-tight">
-              {formatPrice(land.pret)} €
+              {formatPrice(land.pret)} €/m²
             </span>
           </div>
         </div>
@@ -104,28 +112,31 @@ export default function LandCard({ land, index = 0 }: LandCardProps) {
         </h3>
 
         {/* Details */}
-        <div className="flex items-center gap-5 mb-6 overflow-hidden">
-          {/* Location */}
-          <div className="flex items-center gap-1.5 text-muted min-w-0">
+        <div className="mb-6">
+          {/* Location (Row 1) */}
+          <div className="flex items-center gap-1.5 text-muted mb-3">
             <MapPin className="w-3.5 h-3.5 text-accent flex-shrink-0" />
-            <span className="text-[11px] font-bold truncate">
+            <span className="text-[11px] font-bold">
               {land.localitate}, {land.judet}
             </span>
           </div>
 
-          {/* Area */}
-          <div className="flex items-center gap-1.5 text-muted flex-shrink-0">
-            <Maximize className="w-3.5 h-3.5 text-accent flex-shrink-0" />
-            <span className="text-[11px] font-bold whitespace-nowrap">
-              {formatArea(land.suprafata_mp)} m²
-            </span>
-          </div>
+          {/* Area & Price (Row 2) */}
+          <div className="flex items-center justify-between text-muted">
+            {/* Area */}
+            <div className="flex items-center gap-1.5">
+              <Maximize className="w-3.5 h-3.5 text-accent flex-shrink-0" />
+              <span className="text-[11px] font-bold whitespace-nowrap">
+                {formatArea(land.suprafata_mp)} m²
+              </span>
+            </div>
 
-          {/* Price per sqm */}
-          <div className="flex items-center gap-1 text-muted flex-shrink-0 ml-auto border-l border-border/50 pl-4">
-            <span className="text-[11px] font-bold whitespace-nowrap">
-              {formatPricePerSqm(land.pret, land.suprafata_mp)} €/m²
-            </span>
+            {/* Total Price */}
+            <div className="flex items-center gap-1">
+              <span className="text-[11px] font-bold whitespace-nowrap">
+                Total: {formatTotalPrice(land.pret, land.suprafata_mp)} €
+              </span>
+            </div>
           </div>
         </div>
 
