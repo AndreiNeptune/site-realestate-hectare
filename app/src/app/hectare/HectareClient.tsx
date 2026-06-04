@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import { Search, MapPin, ArrowLeft, Home, Wallet, SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
@@ -9,6 +9,7 @@ import LandCard from "@/components/lands/LandCard";
 import SearchSelect from "@/components/ui/SearchSelect";
 import SearchInput from "@/components/ui/SearchInput";
 import AdvancedFilterSheet from "@/components/ui/AdvancedFilterSheet";
+import SortSelect from "@/components/ui/SortSelect";
 
 interface FilterValues {
   searchQuery: string;
@@ -40,6 +41,7 @@ const TIP_OPTIONS = [
   { value: "agricol", label: "Agricol" },
   { value: "pasune", label: "Pășune" },
   { value: "ferma", label: "Fermă" },
+  { value: "padure", label: "Pădure" },
 ];
 
 const INITIAL_FILTERS: FilterValues = {
@@ -93,11 +95,11 @@ export default function HectareClient({ initialLands }: HectareClientProps) {
       results = results.filter((l) => l.tip_hectar === filters.tipHectar);
     }
 
-    // Price range
+    // Price range (calculate total price since DB price is per sqm)
     results = results.filter((l) => {
-      const price = Number(l.pret);
+      const totalPrice = Number(l.pret) * Number(l.suprafata_mp);
       const isOverMax = filters.pretMax === -1 || filters.pretMax >= PRET_MAX_LIMIT;
-      return price >= filters.pretMin && (isOverMax || price <= filters.pretMax);
+      return totalPrice >= filters.pretMin && (isOverMax || totalPrice <= filters.pretMax);
     });
 
     // Area range (using sqm directly)
@@ -124,10 +126,10 @@ export default function HectareClient({ initialLands }: HectareClientProps) {
     // Sorting
     switch (filters.sortare) {
       case "pret_asc":
-        results.sort((a, b) => Number(a.pret) - Number(b.pret));
+        results.sort((a, b) => (Number(a.pret) * Number(a.suprafata_mp)) - (Number(b.pret) * Number(b.suprafata_mp)));
         break;
       case "pret_desc":
-        results.sort((a, b) => Number(b.pret) - Number(a.pret));
+        results.sort((a, b) => (Number(b.pret) * Number(b.suprafata_mp)) - (Number(a.pret) * Number(a.suprafata_mp)));
         break;
       case "suprafata_asc":
         results.sort((a, b) => Number(a.suprafata_mp) - Number(b.suprafata_mp));
@@ -143,6 +145,22 @@ export default function HectareClient({ initialLands }: HectareClientProps) {
 
     return results;
   }, [filters, dbLands]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
+  const totalItems = filteredLands.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const paginatedLands = useMemo(() => {
+    return filteredLands.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  }, [filteredLands, currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters]);
+
+  const startItem = totalItems === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1;
+  const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
   const updateFilter = (key: keyof FilterValues, value: any) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
@@ -267,6 +285,7 @@ export default function HectareClient({ initialLands }: HectareClientProps) {
                         onChange={(val) => updateFilter("pretMax", val)}
                         hideBorder={true}
                         hideIconMobile={true}
+                        align="right"
                       />
                     </div>
 
@@ -295,30 +314,54 @@ export default function HectareClient({ initialLands }: HectareClientProps) {
           <div className="flex items-center gap-3">
             <div className="w-2 h-2 bg-accent rounded-full animate-pulse" />
             <h2 className="text-xl sm:text-2xl font-black text-foreground tracking-tight">
-              {filteredLands.length} <span className="text-muted font-medium">Hectare disponibile</span>
+              Hectare disponibile <span className="text-muted font-medium text-sm sm:text-base ml-1">({startItem}-{endItem} din {totalItems})</span>
             </h2>
           </div>
           <div className="flex items-center gap-3">
             <label className="text-[10px] font-black text-muted uppercase tracking-widest hidden sm:block">Sortează:</label>
-            <select
+            <SortSelect
               value={filters.sortare}
-              onChange={(e) => updateFilter("sortare", e.target.value)}
-              className="bg-white border border-border rounded-xl px-4 py-2 text-xs font-bold text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 appearance-none cursor-pointer text-center"
-            >
-              <option value="recent">Cele mai noi</option>
-              <option value="pret_asc">Preț: mic → mare</option>
-              <option value="pret_desc">Preț: mare → mic</option>
-            </select>
+              onChange={(val) => updateFilter("sortare", val)}
+              options={[
+                { value: "recent", label: "Cele mai noi" },
+                { value: "pret_asc", label: "Preț: mic → mare" },
+                { value: "pret_desc", label: "Preț: mare → mic" },
+              ]}
+              className="min-w-[140px]"
+            />
           </div>
         </div>
 
         {/* Grid */}
         {filteredLands.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
-            {filteredLands.map((land, index) => (
-              <LandCard key={land.id} land={land} index={index} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
+              {paginatedLands.map((land, index) => (
+                <LandCard key={land.id} land={land} index={index} />
+              ))}
+            </div>
+
+            {totalPages > 1 && (
+              <div className="flex justify-center items-center gap-2 mt-12">
+                {Array.from({ length: totalPages }).map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => {
+                      setCurrentPage(i + 1);
+                      document.getElementById("results-list")?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold transition-all ${
+                      currentPage === i + 1
+                        ? "bg-primary text-white shadow-md shadow-primary/20"
+                        : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
+                    }`}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+              </div>
+            )}
+          </>
         ) : (
           <div className="bg-white rounded-[3rem] border border-border p-20 flex flex-col items-center text-center shadow-xl shadow-black/[0.02]">
             <div className="w-24 h-24 bg-surface rounded-[2rem] flex items-center justify-center mb-8 mx-auto border border-border shadow-inner">

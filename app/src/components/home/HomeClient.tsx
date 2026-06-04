@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Landmark, ArrowRight, Search } from "lucide-react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -77,11 +77,11 @@ export default function HomeClient({ initialLands }: HomeClientProps) {
       results = results.filter((l) => l.tip_hectar === filters.tipHectar);
     }
 
-    // Price range
+    // Price range (calculate total price since DB price is per sqm)
     results = results.filter((l) => {
-      const price = Number(l.pret);
+      const totalPrice = Number(l.pret) * Number(l.suprafata_mp);
       const isOverMax = filters.pretMax >= PRET_MAX_LIMIT;
-      return price >= filters.pretMin && (filters.pretMax === 0 || isOverMax || price <= filters.pretMax);
+      return totalPrice >= filters.pretMin && (filters.pretMax === 0 || isOverMax || totalPrice <= filters.pretMax);
     });
 
     // Area range (using sqm directly)
@@ -94,10 +94,10 @@ export default function HomeClient({ initialLands }: HomeClientProps) {
     // Sorting
     switch (filters.sortare) {
       case "pret_asc":
-        results.sort((a, b) => Number(a.pret) - Number(b.pret));
+        results.sort((a, b) => (Number(a.pret) * Number(a.suprafata_mp)) - (Number(b.pret) * Number(b.suprafata_mp)));
         break;
       case "pret_desc":
-        results.sort((a, b) => Number(b.pret) - Number(a.pret));
+        results.sort((a, b) => (Number(b.pret) * Number(b.suprafata_mp)) - (Number(a.pret) * Number(a.suprafata_mp)));
         break;
       case "suprafata_asc":
         results.sort((a, b) => Number(a.suprafata_mp) - Number(b.suprafata_mp));
@@ -113,6 +113,22 @@ export default function HomeClient({ initialLands }: HomeClientProps) {
 
     return results;
   }, [filters, dbLands]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
+  const totalItems = filteredLands.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  
+  const paginatedLands = useMemo(() => {
+    return filteredLands.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  }, [filteredLands, currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters]);
+
+  const startItem = totalItems === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1;
+  const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
   return (
     <>
@@ -144,12 +160,12 @@ export default function HomeClient({ initialLands }: HomeClientProps) {
                 <span className="gradient-text">disponibile</span>
               </h2>
               <p className="text-sm text-muted mt-2">
-                {filteredLands.length} hectare găsite
+                {startItem}-{endItem} din {totalItems} hectare
               </p>
             </div>
             <Link
               href="/hectare"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary/5 text-primary hover:bg-primary hover:text-white rounded-xl text-sm font-bold transition-all group/btn"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary/5 text-primary hover:bg-primary hover:text-white rounded-xl text-sm font-bold transition-all group/btn sm:mr-5"
             >
               <span>Vezi toate hectarele</span>
               <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
@@ -163,11 +179,34 @@ export default function HomeClient({ initialLands }: HomeClientProps) {
 
           {/* Grid */}
           {filteredLands.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              {filteredLands.map((land, index) => (
-                <LandCard key={land.id} land={land} index={index} />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                {paginatedLands.map((land, index) => (
+                  <LandCard key={land.id} land={land} index={index} />
+                ))}
+              </div>
+
+              {totalPages > 1 && (
+                <div className="flex justify-center items-center gap-2 mt-10">
+                  {Array.from({ length: totalPages }).map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        setCurrentPage(i + 1);
+                        document.getElementById("listings")?.scrollIntoView({ behavior: "smooth" });
+                      }}
+                      className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold transition-all ${
+                        currentPage === i + 1
+                          ? "bg-primary text-white shadow-md shadow-primary/20"
+                          : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
+                      }`}
+                    >
+                      {i + 1}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </>
           ) : (
             <div className="flex flex-col items-center text-center py-20">
               <div className="w-16 h-16 bg-surface rounded-full flex items-center justify-center mb-6 mx-auto">

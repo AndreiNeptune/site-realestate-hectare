@@ -18,6 +18,7 @@ interface SearchSelectProps {
   searchable?: boolean;
   hideBorder?: boolean;
   hideIconMobile?: boolean;
+  align?: "left" | "right";
 }
  
 export default function SearchSelect({
@@ -30,6 +31,7 @@ export default function SearchSelect({
   searchable = false,
   hideBorder = false,
   hideIconMobile = false,
+  align = "left",
 }: SearchSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -83,9 +85,11 @@ export default function SearchSelect({
       });
   }, [options, searchTerm]);
  
+  const alignClass = align === "right" ? "right-0 sm:left-0 sm:right-auto" : "left-0";
+
   const dropdownMenu = isOpen ? (
     <div
-      className="absolute top-[calc(100%+8px)] left-0 w-full min-w-[200px] bg-white rounded-2xl shadow-3xl border border-border/60 z-[100] animate-slide-up overflow-hidden flex flex-col"
+      className={`absolute top-[calc(100%+8px)] ${alignClass} w-full min-w-[200px] bg-white rounded-2xl shadow-3xl border border-border/60 z-[100] animate-slide-up overflow-hidden flex flex-col`}
     >
       {searchable && (
         <div className="px-3 pb-2 pt-1 border-b border-border/40 sticky top-0 bg-white z-10">

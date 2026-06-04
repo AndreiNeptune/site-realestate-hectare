@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import { SlidersHorizontal, RotateCcw, ChevronDown, ChevronUp } from "lucide-react";
 import { JUDETE, TIP_HECTAR_OPTIONS, PRET_MAX_LIMIT, SUPRAFATA_MAX_LIMIT } from "@/lib/constants";
 import FilterSelect from "@/components/ui/FilterSelect";
+import SortSelect from "@/components/ui/SortSelect";
 
 export interface FilterValues {
   searchQuery: string;
@@ -100,18 +101,19 @@ export default function LandFilters({ filters, onFilterChange }: LandFiltersProp
             <label htmlFor="sort-select" className="text-[10px] font-bold text-muted uppercase tracking-wider hidden sm:block">
               Sortează:
             </label>
-            <select
+            <SortSelect
               id="sort-select"
               value={filters.sortare}
-              onChange={(e) => updateFilter("sortare", e.target.value)}
-              className="text-xs font-semibold text-foreground bg-surface px-4 py-2 rounded-xl border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer appearance-none min-w-[100px] sm:min-w-[140px] text-center"
-            >
-              <option value="recent">Cele mai noi</option>
-              <option value="pret_asc">Preț: mic → mare</option>
-              <option value="pret_desc">Preț: mare → mic</option>
-              <option value="suprafata_asc">Suprafață: mică → mare</option>
-              <option value="suprafata_desc">Suprafață: mare → mică</option>
-            </select>
+              onChange={(val) => updateFilter("sortare", val)}
+              options={[
+                { value: "recent", label: "Cele mai noi" },
+                { value: "pret_asc", label: "Preț: mic → mare" },
+                { value: "pret_desc", label: "Preț: mare → mic" },
+                { value: "suprafata_asc", label: "Suprafață: mică → mare" },
+                { value: "suprafata_desc", label: "Suprafață: mare → mică" },
+              ]}
+              className="!bg-surface min-w-[160px] sm:min-w-[195px] !font-semibold"
+            />
           </div>
         </div>
       </div>
